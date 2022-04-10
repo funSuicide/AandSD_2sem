@@ -18,9 +18,16 @@ private:
 	MyTree* root;
 	void ClearTree(MyTree* root);
 	MyTree* Insert(int key, string data, MyTree* tree);
+	unsigned Height(MyTree* tree);
+	int BalanceReason(MyTree* tree);
+	void FixHeight(MyTree* tree);
+	MyTree* RotateRight(MyTree* tree);
+	MyTree* RotateLeft(MyTree* tree);
+	MyTree* BalanceTree(MyTree* tree);
 public:
 	Map();
 	~Map();
 	bool Insert(int key, string data);
+	const string& FindElement(int ket) const;
 
 };
