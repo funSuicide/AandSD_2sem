@@ -24,10 +24,11 @@ private:
 	MyTree* RotateRight(MyTree* tree);
 	MyTree* RotateLeft(MyTree* tree);
 	MyTree* BalanceTree(MyTree* tree);
+	void PrintTree(MyTree* tree, int stl = 0) const;
 public:
 	Map();
 	~Map();
 	bool Insert(int key, string data);
 	const string& FindElement(int ket) const;
-
+	void Print() const;
 };

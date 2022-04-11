@@ -11,7 +11,7 @@ Map::~Map() {
 }
 
 void Map::ClearTree(MyTree* root) {
-	while (root) {
+	if (root) {
 		ClearTree(root->left);
 		ClearTree(root->right);
 		delete root;
@@ -101,4 +101,21 @@ MyTree* Map::BalanceTree(MyTree* tree){
 		return RotateRight(tree);
 	}
 	return tree;
+}
+
+void Map::PrintTree(MyTree* tree, int stl) const{
+	if (tree){
+		PrintTree(tree->right, stl + 1);
+		for (int i = 0; i < stl; i++) std::cout << "   ";
+		std::cout << tree->key << std::endl;
+		PrintTree(tree->left, stl + 1);
+	}
+}
+
+void Map::Print() const
+{
+	if (!root){
+		std::cout << "The container is empty..." << std::endl;
+	}
+	else PrintTree(root, 0);
 }
