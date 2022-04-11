@@ -22,12 +22,12 @@ MyTree* Map::Insert(int key, string data, MyTree* tree) {
 	if (tree == nullptr){
 		tree = new MyTree(key, data);
 	}
-	else if (key > root->key){
-		tree->right = Insert(key, data, tree->right);
-	}
-	else if (key < root->key)
+	else if (key < tree->key)
 	{
 		tree->left = Insert(key, data, tree->left);
+	}
+	else if (key > tree->key) {
+		tree->right = Insert(key, data, tree->right);
 	}
 	else throw "This element is already present...";
 	return BalanceTree(tree);
@@ -63,8 +63,8 @@ int Map::BalanceReason(MyTree* tree){
 }
 
 void Map::FixHeight(MyTree* tree){
-	unsigned height_right = Height(tree->right);
 	unsigned height_left = Height(tree->left);
+	unsigned height_right = Height(tree->right);
 	tree->height = (height_left > height_right ? height_left : height_right) + 1;
 }
 
@@ -81,8 +81,8 @@ MyTree* Map::RotateLeft(MyTree* tree){
 	MyTree* tree2 = tree->right;
 	tree->right = tree2->left;
 	tree2->left = tree;
-	FixHeight(tree2);
 	FixHeight(tree);
+	FixHeight(tree2);
 	return tree2;
 }
 
@@ -112,10 +112,47 @@ void Map::PrintTree(MyTree* tree, int stl) const{
 	}
 }
 
-void Map::Print() const
-{
+void Map::Print() const{
 	if (!root){
 		std::cout << "The container is empty..." << std::endl;
 	}
 	else PrintTree(root, 0);
+}
+
+MyTree* Map::FindMin(MyTree* tree){
+	return tree->left ? FindMin(tree->left) : tree;
+}
+
+MyTree* Map::EraseMin(MyTree* tree){
+	if (tree->left == nullptr)
+		return tree->right;
+	tree->left = EraseMin(tree->left);
+	return BalanceTree(tree);
+}
+
+MyTree* Map::EraseElement(MyTree* tree, int key){
+	if (!tree) return nullptr;
+	if (key < tree->key){
+		tree->left = EraseElement(tree->left, key);
+	}
+	else if (key > tree->key){
+		tree->right = EraseElement(tree->right, key);
+	}
+	else{
+		MyTree* tmp_left = tree->left;
+		MyTree* tmp_right = tree->right;
+		delete tree;
+		if (!tmp_right) return tmp_left;
+		if (!tmp_left) return tmp_right;
+		MyTree* min = FindMin(tmp_right);
+		min->right = EraseMin(tmp_right);
+		min->left = tmp_left;
+		return BalanceTree(min);
+	}
+	return BalanceTree(tree);
+}
+
+bool Map::Erase(int key){
+	root = EraseElement(root, key);
+	return true;
 }

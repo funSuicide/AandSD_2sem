@@ -25,10 +25,14 @@ private:
 	MyTree* RotateLeft(MyTree* tree);
 	MyTree* BalanceTree(MyTree* tree);
 	void PrintTree(MyTree* tree, int stl = 0) const;
+	MyTree* FindMin(MyTree* tree);
+	MyTree* EraseMin(MyTree* tree);
+	MyTree* EraseElement(MyTree* tree, int key);
 public:
 	Map();
 	~Map();
 	bool Insert(int key, string data);
 	const string& FindElement(int ket) const;
 	void Print() const;
+	bool Erase(int key);
 };
