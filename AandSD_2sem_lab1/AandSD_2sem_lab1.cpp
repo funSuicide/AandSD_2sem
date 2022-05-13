@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <conio.h>
 #include "Map.h"
+#include <chrono>
 
 using namespace std;
 
@@ -51,7 +52,6 @@ void menu(Map& m) {
             catch (const char* err)
             {
                 cout << err;
-                system("pause");
                 break;
             }
             menu(m);
@@ -62,12 +62,10 @@ void menu(Map& m) {
             cin >> key;
             try {
                 cout << "Data with this key:" << m.FindElement(key) << "\n";
-                system("pause");
             }
             catch (const char* err)
             {
                 std::cout << err;
-                system("pause");
                 break;
             }
             menu(m);

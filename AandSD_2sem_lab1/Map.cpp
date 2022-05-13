@@ -59,7 +59,7 @@ unsigned Map::Height(MyTree* tree){
 }
 
 int Map::BalanceReason(MyTree* tree){
-	return Height(tree->right) - Height(tree->left);
+	return Height(tree->left) - Height(tree->right);
 }
 
 void Map::FixHeight(MyTree* tree){
@@ -88,16 +88,16 @@ MyTree* Map::RotateLeft(MyTree* tree){
 
 MyTree* Map::BalanceTree(MyTree* tree){
 	FixHeight(tree);
-	if (BalanceReason(tree) == 2)
-	{
-		if (BalanceReason(tree->right) < 0)
-			tree->right = RotateRight(tree->right);
-		return RotateLeft(tree);
-	}
 	if (BalanceReason(tree) == -2)
 	{
-		if (BalanceReason(tree->left) > 0)
-			tree->left = RotateLeft(tree->left);
+		if (BalanceReason(tree->right) == 1)
+			tree->right = RotateLeft(tree->right);
+		return RotateLeft(tree);
+	}
+	if (BalanceReason(tree) == 2)
+	{
+		if (BalanceReason(tree->left) == -1)
+			tree->left = RotateRight(tree->left);
 		return RotateRight(tree);
 	}
 	return tree;
@@ -106,7 +106,7 @@ MyTree* Map::BalanceTree(MyTree* tree){
 void Map::PrintTree(MyTree* tree, int stl) const{
 	if (tree){
 		PrintTree(tree->right, stl + 1);
-		for (int i = 0; i < stl; i++) std::cout << "   ";
+		for (int i = 0; i < stl; i++) std::cout << "		 ";
 		std::cout << tree->key << std::endl;
 		PrintTree(tree->left, stl + 1);
 	}
