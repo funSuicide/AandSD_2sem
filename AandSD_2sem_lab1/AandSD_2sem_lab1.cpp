@@ -2,8 +2,25 @@
 #include <conio.h>
 #include "Map.h"
 #include <chrono>
+#include <fstream>
 
 using namespace std;
+
+void TestTime(Map& m) {
+    ofstream fout;
+    fout.open("data.txt", ios_base::app);
+    for (int j = 0; j < 10; ++j) {
+        auto begin = std::chrono::steady_clock::now();
+        for (int i = 0; i < 1000000; ++i) {
+            m.Insert(j * 1000000 + i, "-");
+        }
+        auto end = std::chrono::steady_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+
+        fout << duration.count() << endl;
+    }
+    fout.close();
+}
 
 int GetKey()
 {
@@ -84,7 +101,9 @@ void menu(Map& m) {
 int main(){
     Map m;
     cout << "Hello, user!^_^" << "\n";
-    menu(m);
+    //menu(m);
+    TestTime(m);
+    cout << "Vse";
     return 0;
 }
 
